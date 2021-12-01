@@ -1,0 +1,74 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: KGR Login with Google\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-01 18:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.5; wp-5.8.2\n"
+"X-Domain: kgr-login-with-google"
+
+#: settings.php:27
+msgid "Clear"
+msgstr ""
+
+#: settings.php:77
+msgid "Client ID"
+msgstr ""
+
+#: settings.php:89
+msgid "Client Secret"
+msgstr ""
+
+#. Author of the plugin
+msgid "constracti"
+msgstr ""
+
+#: settings.php:61
+msgid "Credentials"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/constracti"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/constracti/kgr-login-with-google"
+msgstr ""
+
+#. Name of the plugin
+#: settings.php:7 settings.php:8
+msgid "KGR Login with Google"
+msgstr ""
+
+#. Description of the plugin
+msgid "Login or register to WP usign Sign In with Google."
+msgstr ""
+
+#: login.php:18
+msgid "Login with Google"
+msgstr ""
+
+#: login.php:30
+msgid "Register with Google"
+msgstr ""
+
+#: settings.php:48
+msgid "Remember"
+msgstr ""
+
+#: settings.php:20
+msgid "Save"
+msgstr ""
+
+#: index.php:42
+msgid "Settings"
+msgstr ""

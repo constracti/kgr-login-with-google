@@ -1,0 +1,73 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: KGR Login with Google\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-01 18:47+0000\n"
+"PO-Revision-Date: 2021-12-01 18:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: Ελληνικά\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.5.5; wp-5.8.2\n"
+"X-Domain: kgr-login-with-google"
+
+#: settings.php:27
+msgid "Clear"
+msgstr "Καθαρισμός"
+
+#: settings.php:77
+msgid "Client ID"
+msgstr "Client ID"
+
+#: settings.php:89
+msgid "Client Secret"
+msgstr "Client Secret"
+
+#. Author of the plugin
+msgid "constracti"
+msgstr "constracti"
+
+#: settings.php:61
+msgid "Credentials"
+msgstr "Credentials"
+
+#. Author URI of the plugin
+msgid "https://github.com/constracti"
+msgstr "https://github.com/constracti"
+
+#. URI of the plugin
+msgid "https://github.com/constracti/kgr-login-with-google"
+msgstr "https://github.com/constracti/kgr-login-with-google"
+
+#. Name of the plugin
+#: settings.php:7 settings.php:8
+msgid "KGR Login with Google"
+msgstr "KGR Σύνδεση με Google"
+
+#. Description of the plugin
+msgid "Login or register to WP usign Sign In with Google."
+msgstr "Σύνδεση ή εγγραφή στο WP με χρήση της υπηρεσίας Google Sign-In."
+
+#: login.php:18
+msgid "Login with Google"
+msgstr "Σύνδεση με Google"
+
+#: login.php:30
+msgid "Register with Google"
+msgstr "Εγγραφή με Google"
+
+#: settings.php:48
+msgid "Remember"
+msgstr "Απομνημόνευση"
+
+#: settings.php:20
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: index.php:42
+msgid "Settings"
+msgstr "Ρυθμίσεις"
