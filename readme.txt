@@ -5,8 +5,8 @@ Requires at least: 3.1.0
 Tested up to: 5.8.2
 Stable tag: 1.1
 Requires PHP: 7.0
-License: GPL v2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Login or register to WP usign Sign In with Google.
 
