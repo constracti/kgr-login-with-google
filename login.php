@@ -10,13 +10,13 @@ function kgr_login_with_google_link( string $text = '' ): void {
 		'client_id' => get_option( 'kgr-login-with-google-client-id' ),
 		'redirect_uri' => urlencode( $redirect_url ),
 		'response_type' => 'code',
-		'scope' => 'https://www.googleapis.com/auth/userinfo.email',
-		'prompt' => 'consent',
+		'scope' => urlencode( 'https://www.googleapis.com/auth/userinfo.email' ),
+		'prompt' => 'select_account',
 		'state' => wp_create_nonce( 'kgr_login_with_google_redirect' ),
 	], 'https://accounts.google.com/o/oauth2/v2/auth' );
 	if ( $text === '' )
 		$text = __( 'Login with Google', 'kgr-login-with-google' );
-	echo sprintf( '<a href="%s">%s</a>', $url, esc_html( $text ) ) . "\n";
+	echo sprintf( '<a href="%s">%s</a>', esc_url_raw( $url ), esc_html( $text ) ) . "\n";
 }
 
 add_action( 'login_form', function(): void {
@@ -42,55 +42,40 @@ add_action( 'wp_meta', function(): void {
 add_action( 'wp_ajax_nopriv_kgr_login_with_google_redirect', function(): void {
 	// https://developers.google.com/identity/protocols/oauth2/web-server#handlingresponse
 	if ( array_key_exists( 'error', $_GET ) )
-		wp_die( esc_html( $_GET['error'] ) );
+		wp_die( 'authorization_code: error ' . esc_html( $_GET['error'] ) );
 	if ( !array_key_exists( 'code', $_GET ) || !is_string( $_GET['code'] ) )
-		wp_die( 'authorization_code' );
+		wp_die( 'authorization_code: code' );
 	if ( !array_key_exists( 'state', $_GET ) || !is_string( $_GET['state'] ) )
-		wp_die( 'nonce' );
+		wp_die( 'authorization_code: state' );
 	if ( wp_verify_nonce( $_GET['state'], 'kgr_login_with_google_redirect' ) === FALSE )
-		wp_die( 'nonce' );
+		wp_die( 'authorization_code: nonce' );
 	// https://developers.google.com/identity/protocols/oauth2/web-server#exchange-authorization-code
-	$handle = curl_init( 'https://oauth2.googleapis.com/token' );
-	if ( $handle === FALSE )
-		wp_die( 'curl_init' );
 	$authorization_code = $_GET['code'];
 	$redirect_url = add_query_arg( 'action', 'kgr_login_with_google_redirect', admin_url( 'admin-ajax.php' ) );
-	$fields = [
-		'client_id' => get_option( 'kgr-login-with-google-client-id' ),
-		'client_secret' => get_option( 'kgr-login-with-google-client-secret' ),
-		'code' => $authorization_code,
-		'grant_type' => 'authorization_code',
-		'redirect_uri' => $redirect_url,
-	];
-	if ( curl_setopt( $handle, CURLOPT_POST, TRUE ) === FALSE )
-		wp_die( esc_html( curl_error( $handle ) ) );
-	if ( curl_setopt( $handle, CURLOPT_POSTFIELDS, $fields ) === FALSE )
-		wp_die( esc_html( curl_error( $handle ) ) );
-	$headers = [
-		'Content-Type: multipart/form-data',
-	];
-	if ( curl_setopt( $handle, CURLOPT_HTTPHEADER, $headers ) === FALSE )
-		wp_die( esc_html( curl_error( $handle ) ) );
-	if ( curl_setopt( $handle, CURLOPT_RETURNTRANSFER, TRUE ) === FALSE )
-		wp_die( esc_html( curl_error( $handle ) ) );
-	$json = curl_exec( $handle );
-	if ( $json === FALSE )
-		wp_die( esc_html( curl_error( $handle ) ) );
-	curl_close( $handle );
+	$response = wp_remote_post( 'https://oauth2.googleapis.com/token', [
+		'body' => [
+			'client_id' => get_option( 'kgr-login-with-google-client-id' ),
+			'client_secret' => get_option( 'kgr-login-with-google-client-secret' ),
+			'code' => $authorization_code,
+			'grant_type' => 'authorization_code',
+			'redirect_uri' => $redirect_url,
+		],
+	] );
+	if ( is_wp_error( $response ) )
+		wp_die( 'access_token: error ' . esc_html( $response->get_error_message() ) );
+	$json = wp_remote_retrieve_body( $response );
 	// https://developers.google.com/identity/protocols/oauth2/openid-connect
 	$json = json_decode( $json, TRUE );
 	if ( is_null( $json ) )
 		wp_die( 'access_token: json_decode' );
 	if ( array_key_exists( 'error', $json ) && is_string( $json['error'] ) )
-		wp_die( esc_html( $json['error'] ) );
-	if ( !array_key_exists( 'access_token', $json ) || !is_string( $json['access_token'] ) )
-		wp_die( 'access_token' );
+		wp_die( 'access_token: error ' . esc_html( $json['error'] ) );
 	if ( !array_key_exists( 'id_token', $json ) || !is_string( $json['id_token'] ) )
-		wp_die( 'id_token' );
+		wp_die( 'access_token: id_token' );
 	// https://darutk.medium.com/understanding-id-token-5f83f50fa02e
 	$id_token = explode( '.', $json['id_token'] );
 	if ( count( $id_token ) !== 3 )
-		wp_die( 'id_token' );
+		wp_die( 'id_token: explode' );
 	$header = base64_decode( $id_token[0], TRUE );
 	if ( $header == FALSE )
 		wp_die( 'header: base64_decode' );

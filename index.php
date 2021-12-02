@@ -4,7 +4,7 @@
  * Plugin Name: KGR Login with Google
  * Plugin URI: https://github.com/constracti/kgr-login-with-google
  * Description: Login or register to WP usign Sign In with Google.
- * Version: 1.0
+ * Version: 1.1
  * Requires at least: 3.1.0
  * Requires PHP: 7.0
  * Author: constracti
