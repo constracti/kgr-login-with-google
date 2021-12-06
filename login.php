@@ -20,18 +20,30 @@ function kgr_login_with_google_link( string $text = '' ): void {
 }
 
 add_action( 'login_form', function(): void {
+	if ( get_option( 'kgr-login-with-google-client-id' ) === '' )
+		return;
+	if ( get_option( 'kgr-login-with-google-client-secret' ) === '' )
+		return;
 	echo '<div style="margin: 0 6px 16px 0;">' . "\n";
 	kgr_login_with_google_link();
 	echo '</div>' . "\n";
 } );
 
 add_action( 'register_form', function(): void {
+	if ( get_option( 'kgr-login-with-google-client-id' ) === '' )
+		return;
+	if ( get_option( 'kgr-login-with-google-client-secret' ) === '' )
+		return;
 	echo '<div style="margin: 0 6px 16px 0;">' . "\n";
 	kgr_login_with_google_link( __( 'Register with Google', 'kgr-login-with-google' ) );
 	echo '</div>' . "\n";
 } );
 
 add_action( 'wp_meta', function(): void {
+	if ( get_option( 'kgr-login-with-google-client-id' ) === '' )
+		return;
+	if ( get_option( 'kgr-login-with-google-client-secret' ) === '' )
+		return;
 	if ( is_user_logged_in() )
 		return;
 	echo '<li>' . "\n";
