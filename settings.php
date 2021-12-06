@@ -52,6 +52,13 @@ add_action( 'admin_init', function(): void {
 			esc_attr( $args['label_for'] ),
 			checked( get_option( $args['name'] ), TRUE, FALSE )
 		) . "\n";
+		echo '<p class="description">' . "\n";
+		echo sprintf( '<span>%s</span>', esc_html__( 'Increases the lifetime of the login cookie.', 'kgr-login-with-google' ) ) . "\n";
+		echo sprintf( '<a href="%s" target="_blank">%s</a>',
+			'https://developer.wordpress.org/reference/functions/wp_set_auth_cookie/',
+			esc_html__( 'More information.', 'kgr-login-with-google' )
+		) . "\n";
+		echo '</p>' . "\n";
 	}, $page, $section, [
 		'name' => $id,
 		'label_for' => $id,
@@ -59,7 +66,23 @@ add_action( 'admin_init', function(): void {
 	// SECTION
 	$section = 'kgr-login-with-google-credentials';
 	$title = esc_html__( 'Credentials', 'kgr-login-with-google' );
-	add_settings_section( $section, $title, '__return_null', $page );
+	add_settings_section( $section, $title, function(): void {
+		echo sprintf( '<p>%s</p>', esc_html__( 'In order to obtain your Credentials, follow the steps below:', 'kgr-login-with-google' ) ) . "\n";
+		echo '<ol>' . "\n";
+		echo sprintf( '<li>%s</li>', sprintf( esc_html_x( 'Create a new project or select an existing one in %s.', 'Create a new project or select an existing one in *Google Cloud Platform*.', 'kgr-login-with-google' ), '<a href="https://console.cloud.google.com/" target="_blank">Google Cloud Platform</a>' ) ) . "\n";
+		echo sprintf( '<li>%s</li>', sprintf( esc_html_x( 'Click on %s.', 'Click on *Create Credentials*.', 'kgr-login-with-google' ), '<strong>Create Credentials</strong>' ) ) . "\n";
+		echo sprintf( '<li>%s</li>', sprintf( esc_html_x( 'Choose %s.', 'Choose *OAuth client ID*.', 'kgr-login-with-google' ), '<strong>OAuth client ID</strong>' ) ) . "\n";
+		echo sprintf( '<li>%s</li>', sprintf( esc_html_x( 'Select %s as an %s.', 'Select *Web application* as an *Application type*.' , 'kgr-login-with-google' ), '<strong>Web application</strong>', '<strong>Application type</strong>' ) ) . "\n";
+		echo '<li>' . "\n";
+		echo sprintf( '<span>%s</span>', sprintf( esc_html_x( 'Under %s add the URI:', 'Under *Authorized redirect URIs* add the URI:', 'kgr-login-with-google' ), '<strong>Authorized redirect URIs</strong>' ) ) . "\n";
+		echo '<br />' . "\n";
+		echo sprintf( '<code>%s</code>', esc_url( add_query_arg( 'action', 'kgr_login_with_google_redirect', admin_url( 'admin-ajax.php' ) ) ) );
+		echo '<br />' . "\n";
+		echo sprintf( '<span>%s</span>', esc_html__( 'Remove any whitespaces from the URI.', 'kgr-login-with-google' ) ) . "\n";
+		echo '</li>' . "\n";
+		echo sprintf( '<li>%s</li>', sprintf( esc_html_x( 'Click on the %s button.', 'Click on the *Create* button.', 'kgr-login-with-google' ), '<strong>Create</strong>' ) ) . "\n";
+		echo '</ol>' . "\n";
+	}, $page );
 	$callback = function( array $args ): void {
 		echo sprintf( '<input type="text" class="regular-text" id="%s" name="%s" value="%s" />',
 			esc_attr( $args['name'] ),
